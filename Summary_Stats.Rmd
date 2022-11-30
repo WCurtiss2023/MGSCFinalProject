@@ -65,7 +65,7 @@ library('tidyverse')
 
 
 
-## Part 1: Data Loading and Data Cleaning 
+## Part 1: Data Loading and Summary Stats
 
 1a) Loading Data. 
 ```{r}
@@ -87,17 +87,18 @@ head(unicorns)
 
 ```
 
-3a) CleaningData. 
+3a) Summary Stats
 ```{r}
 
-
+library('vtable')
+st(unicorns)
 
 ```
 
 
 
 
-## Part 2: Summary Statistics 
+## Part 2: Final Project: Models
 
 2a) Response to part a. 
 
