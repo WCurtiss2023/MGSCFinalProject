@@ -1,7 +1,7 @@
 ---
 title: "Final Project: Summary Statistic"
 author: "Samara O & Will C"
-subtitle: MGSC 310 Final Project: Summary Statistic
+subtitle: "MGSC 310 Final Project: Summary Statistic"
 output:
   html_document:
     df_print: paged
@@ -59,13 +59,14 @@ getwd()
 
 # load all your libraries in this chunk 
 library('tidyverse')
+library('vtable')
 # note, do not run install.packages() inside a code chunk. install them in the console outside of a code chunk. 
 
 ```
 
 
 
-## Part 1: Data Loading and Data Cleaning 
+## Part 1: Data Loading and Summary Stats
 
 1a) Loading Data. 
 ```{r}
@@ -74,64 +75,93 @@ library('tidyverse')
 options(scipen = 50)
 set.seed(1861)
 setwd("~/downloads")
-unicorns <- read_csv("unicorns.csv") 
-
-```
-
-
-1b) Opening Data. 
-
-```{r}
+unicorns <- read_csv("unicorn_clean.csv") 
 
 head(unicorns)
 
 ```
 
-3a) CleaningData. 
+
+1b) Cleaning Data
+
+```{r}
+library('dplyr')
+library('tidyverse')
+library('ggrepel')
+library('forcats')
+library('rsample')
+library('plotROC')
+colnames(unicorns)[3] <- "valuation"
+colnames(unicorns)[4] <- "date"
+colnames(unicorns)[8] <- "investor1"
+colnames(unicorns)[9] <- "investor2"
+colnames(unicorns)[10] <- "investor3"
+colnames(unicorns)[11] <- "investor4"
+
+
+unicorns <-
+  unicorns %>%
+  mutate(City = 
+           as_factor(City),
+         Country = as_factor(Country),
+         Industry = as_factor(Industry),
+         investor1 = as_factor(investor1),
+         investor2 = as_factor(investor2),
+         investor3 = as_factor(investor3),
+         investor4 = as_factor(investor4)
+         )
+
+  
+glimpse(unicorns)
+
+```
+
+3a) Summary Stats
+
 ```{r}
 
-
+#install.packages('vtable')
+library('vtable')
+st(unicorns)
 
 ```
 
 
 
 
-## Part 2: Summary Statistics 
+## Part 2: Final Project: Models
 
-2a) Response to part a. 
-
-
-```{r}
-
-# code for 2a
-
-```
-
-
-2b) Response to part b. 
+2a) Plot #1
 
 
 ```{r}
 
-# code for 2b
+library('ggplot2')
+ggplot(data = unicorns, aes(x = valuation, y= Industry)) + geom_point() + geom_smooth()
 
 ```
 
 
-## Question 3
+2b) Plot #2
 
-Here is only text for question 3. 
 
-If you want to add a hypertext link [you can do so](http://www.chapman.edu)
+```{r}
 
-- If you want to add bullets
-  - You
-  - Can 
-  - Do 
-  - It
+ggplot(data = unicorns, aes(x = valuation, y= Country)) + geom_point() + geom_smooth()
 
-If you want to add an image [follow this guide](https://stackoverflow.com/questions/25166624/insert-picture-table-in-r-markdown)
+```
 
+
+2c) Plot #3
+
+
+```{r}
+
+ggplot(data = unicorns, aes(x = valuation, y = Industry)) + 
+  geom_point() + 
+  stat_summary(fun = "mean", color = "red", size = 1) +
+  theme_bw()
+
+```
 
 
